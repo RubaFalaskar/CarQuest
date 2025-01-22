@@ -8,22 +8,19 @@ class PrefrencesModel extends FlutterFlowModel<PrefrencesWidget> {
 
   // State field(s) for ChoiceChips widget.
   FormFieldController<List<String>>? choiceChipsValueController1;
-  String? get choiceChipsValue1 =>
-      choiceChipsValueController1?.value?.firstOrNull;
-  set choiceChipsValue1(String? val) =>
-      choiceChipsValueController1?.value = val != null ? [val] : [];
+  List<String>? get choiceChipsValues1 => choiceChipsValueController1?.value;
+  set choiceChipsValues1(List<String>? val) =>
+      choiceChipsValueController1?.value = val;
   // State field(s) for ChoiceChips widget.
   FormFieldController<List<String>>? choiceChipsValueController2;
-  String? get choiceChipsValue2 =>
-      choiceChipsValueController2?.value?.firstOrNull;
-  set choiceChipsValue2(String? val) =>
-      choiceChipsValueController2?.value = val != null ? [val] : [];
+  List<String>? get choiceChipsValues2 => choiceChipsValueController2?.value;
+  set choiceChipsValues2(List<String>? val) =>
+      choiceChipsValueController2?.value = val;
   // State field(s) for ChoiceChips widget.
   FormFieldController<List<String>>? choiceChipsValueController3;
-  String? get choiceChipsValue3 =>
-      choiceChipsValueController3?.value?.firstOrNull;
-  set choiceChipsValue3(String? val) =>
-      choiceChipsValueController3?.value = val != null ? [val] : [];
+  List<String>? get choiceChipsValues3 => choiceChipsValueController3?.value;
+  set choiceChipsValues3(List<String>? val) =>
+      choiceChipsValueController3?.value = val;
   // State field(s) for Slider widget.
   double? sliderValue;
   // State field(s) for TextField widget.

@@ -154,8 +154,7 @@ class _PrefrencesWidgetState extends State<PrefrencesWidget> {
                                         ChipData('Porsche')
                                       ],
                                       onChanged: (val) => safeSetState(() =>
-                                          _model.choiceChipsValue1 =
-                                              val?.firstOrNull),
+                                          _model.choiceChipsValues1 = val),
                                       selectedChipStyle: ChipStyle(
                                         backgroundColor: const Color(0xFF143969),
                                         textStyle: FlutterFlowTheme.of(context)
@@ -190,7 +189,9 @@ class _PrefrencesWidgetState extends State<PrefrencesWidget> {
                                       ),
                                       chipSpacing: 8.0,
                                       rowSpacing: 8.0,
-                                      multiselect: false,
+                                      multiselect: true,
+                                      initialized:
+                                          _model.choiceChipsValues1 != null,
                                       alignment: WrapAlignment.start,
                                       controller:
                                           _model.choiceChipsValueController1 ??=
@@ -237,8 +238,7 @@ class _PrefrencesWidgetState extends State<PrefrencesWidget> {
                                         ChipData('Electric')
                                       ],
                                       onChanged: (val) => safeSetState(() =>
-                                          _model.choiceChipsValue2 =
-                                              val?.firstOrNull),
+                                          _model.choiceChipsValues2 = val),
                                       selectedChipStyle: ChipStyle(
                                         backgroundColor: const Color(0xFF143969),
                                         textStyle: FlutterFlowTheme.of(context)
@@ -273,7 +273,9 @@ class _PrefrencesWidgetState extends State<PrefrencesWidget> {
                                       ),
                                       chipSpacing: 8.0,
                                       rowSpacing: 8.0,
-                                      multiselect: false,
+                                      multiselect: true,
+                                      initialized:
+                                          _model.choiceChipsValues2 != null,
                                       alignment: WrapAlignment.start,
                                       controller:
                                           _model.choiceChipsValueController2 ??=
@@ -319,8 +321,7 @@ class _PrefrencesWidgetState extends State<PrefrencesWidget> {
                                         ChipData('Plug-in Hybrid')
                                       ],
                                       onChanged: (val) => safeSetState(() =>
-                                          _model.choiceChipsValue3 =
-                                              val?.firstOrNull),
+                                          _model.choiceChipsValues3 = val),
                                       selectedChipStyle: ChipStyle(
                                         backgroundColor: const Color(0xFF143969),
                                         textStyle: FlutterFlowTheme.of(context)
@@ -355,7 +356,9 @@ class _PrefrencesWidgetState extends State<PrefrencesWidget> {
                                       ),
                                       chipSpacing: 8.0,
                                       rowSpacing: 8.0,
-                                      multiselect: false,
+                                      multiselect: true,
+                                      initialized:
+                                          _model.choiceChipsValues3 != null,
                                       alignment: WrapAlignment.start,
                                       controller:
                                           _model.choiceChipsValueController3 ??=
