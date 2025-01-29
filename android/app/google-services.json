@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "814130401458",
+    "project_id": "car-quest-7kqruf",
+    "storage_bucket": "car-quest-7kqruf.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:814130401458:android:f98a5a6782a19373bd39ab",
+        "android_client_info": {
+          "package_name": "com.CarQuest.carquest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7JK1ddyLhjBIIZAnhrSMecfyQ21P9lz0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:814130401458:android:c283b29b91f6ccabbd39ab",
+        "android_client_info": {
+          "package_name": "com.mycompany.carquest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7JK1ddyLhjBIIZAnhrSMecfyQ21P9lz0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

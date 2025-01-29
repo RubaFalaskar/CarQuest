@@ -47,6 +47,43 @@ class _CreatAccountWidgetState extends State<CreatAccountWidget> {
 
     super.dispose();
   }
+  // Helper function to handle the form submission
+  Future<void> _handleSubmit() async {
+    // Validate form inputs
+    if (_model.nameTextController!.text.isEmpty ||
+        _model.userNameTextController!.text.isEmpty ||
+        _model.emailAddressTextController!.text.isEmpty ||
+        _model.dateOfBirthTextController!.text.isEmpty ||
+        _model.passwordTextController!.text.isEmpty ||
+        _model.passwordConfirmTextController!.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please fill in all fields')),
+      );
+      return;
+    }
+
+  
+    // Validate password and confirm password match
+    if (_model.passwordTextController!.text != _model.passwordConfirmTextController!.text) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Passwords do not match')),
+      );
+      return;
+    }
+
+    // Attempt to create the account using Firebase
+    String? errorMessage = await _model.createAccount();
+
+    if (errorMessage == null) {
+      // Successfully created account, navigate to the next screen
+      context.pushNamed('Prefrences');
+    } else {
+      // Handle error message from account creation
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMessage)),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -571,9 +608,11 @@ class _CreatAccountWidgetState extends State<CreatAccountWidget> {
                               ),
                             ),
                             FFButtonWidget(
-                              onPressed: () async {
-                                context.pushNamed('Prefrences');
-                              },
+                              onPressed:  _handleSubmit,  // Handle form submission
+                              // () async {
+                              //   context.pushNamed('Prefrences');
+                              // },
+                              
                               text: 'Next',
                               options: FFButtonOptions(
                                 width: double.infinity,
