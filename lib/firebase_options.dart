@@ -50,19 +50,23 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyA_LtBisajNScEhDO_ArA5Hi3zOsZ2UQrQ',
-    appId: '1:814130401458:web:310b6ea9d557dfa4bd39ab',
-    messagingSenderId: '814130401458',
-    projectId: 'car-quest-7kqruf',
-    authDomain: 'car-quest-7kqruf.firebaseapp.com',
-    storageBucket: 'car-quest-7kqruf.firebasestorage.app',
+    apiKey: 'AIzaSyBg_a19MZaRXkGVNdYnp7E1jzGD-ygk1Cs',
+    appId: '1:518693681477:web:51873a0e244c6f55f7262c',
+    messagingSenderId: '518693681477',
+    projectId: 'carquest-af9db',
+    authDomain: 'carquest-af9db.firebaseapp.com',
+    databaseURL: 'https://carquest-af9db-default-rtdb.firebaseio.com',
+    storageBucket: 'carquest-af9db.firebasestorage.app',
+    measurementId: 'G-TCC2CJT3LF',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyB7JK1ddyLhjBIIZAnhrSMecfyQ21P9lz0',
-    appId: '1:814130401458:android:f98a5a6782a19373bd39ab',
-    messagingSenderId: '814130401458',
-    projectId: 'car-quest-7kqruf',
-    storageBucket: 'car-quest-7kqruf.firebasestorage.app',
+    apiKey: 'AIzaSyAhbNMlvgTnXJYeEKYA9vmWrjj_LYpRKbI',
+    appId: '1:518693681477:android:6c43fc947bb241c5f7262c',
+    messagingSenderId: '518693681477',
+    projectId: 'carquest-af9db',
+    databaseURL: 'https://carquest-af9db-default-rtdb.firebaseio.com',
+    storageBucket: 'carquest-af9db.firebasestorage.app',
   );
+
 }
