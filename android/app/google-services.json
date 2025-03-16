@@ -8,9 +8,47 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:518693681477:android:033f34a46b3402c6f7262c",
+        "android_client_info": {
+          "package_name": "com.CarQuest.car_quest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhbNMlvgTnXJYeEKYA9vmWrjj_LYpRKbI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:518693681477:android:6c43fc947bb241c5f7262c",
         "android_client_info": {
           "package_name": "com.CarQuest.carquest"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhbNMlvgTnXJYeEKYA9vmWrjj_LYpRKbI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:518693681477:android:cd9ee0433376aebaf7262c",
+        "android_client_info": {
+          "package_name": "com.mycompany.carquest"
         }
       },
       "oauth_client": [],
