@@ -129,11 +129,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           path: '/otp',
           builder: (context, params) => const OtpWidget(),
         ),
-        FFRoute(
-          name: 'carDetails',
-          path: '/carDetails',
-          builder: (context, params) => const CarDetailsWidget(),
-        ),
+        // FFRoute(
+        //   name: 'carDetails',
+        //   path: '/carDetails',
+        //   builder: (context, params) => const CarDetailsWidget(),
+        // ),
         FFRoute(
           name: 'AddCar',
           path: '/addCar',

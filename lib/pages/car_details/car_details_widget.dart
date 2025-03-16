@@ -1,3 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
+
+import '../../constants.dart';
+import '../home_page/home_page_model.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -8,7 +12,8 @@ import 'car_details_model.dart';
 export 'car_details_model.dart';
 
 class CarDetailsWidget extends StatefulWidget {
-  const CarDetailsWidget({super.key});
+  final Car car;
+  const CarDetailsWidget({super.key, required this.car});
 
   @override
   State<CarDetailsWidget> createState() => _CarDetailsWidgetState();
@@ -135,6 +140,32 @@ class _CarDetailsWidgetState extends State<CarDetailsWidget>
     super.dispose();
   }
 
+  int getSelectedIndex() {
+    if (_model.checkboxValue1 ?? false) {
+      return 0; // إذا كان checkboxValue1 مفعلاً، نرجع الفهرس 0 (Standard)
+    } else if (_model.checkboxValue2 ?? false) {
+      return 1; // إذا كان checkboxValue2 مفعلاً، نرجع الفهرس 1 (Half Full)
+    } else if (_model.checkboxValue3 ?? false) {
+      return 2; // إذا كان checkboxValue3 مفعلاً، نرجع الفهرس 2 (Full)
+    } else {
+      return -1; // إذا لم يكن أي متغير مفعلاً، نرجع -1 (لا شيء)
+    }
+  }
+
+  String getConfigTitle() {
+    int inx = getSelectedIndex();
+    if (inx == 0) {
+      return 'Standard Configuration:';
+    }
+    if (inx == 1) {
+      return 'Half Full Configuration:';
+    }
+    if (inx == 2) {
+      return 'Full Configuration:';
+    }
+    return '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -165,11 +196,11 @@ class _CarDetailsWidgetState extends State<CarDetailsWidget>
           title: Text(
             'Car Details',
             style: FlutterFlowTheme.of(context).headlineMedium.override(
-                  fontFamily: 'Inter Tight',
-                  color: Colors.white,
-                  fontSize: 22.0,
-                  letterSpacing: 0.0,
-                ),
+              fontFamily: 'Inter Tight',
+              color: Colors.white,
+              fontSize: 22.0,
+              letterSpacing: 0.0,
+            ),
           ),
           actions: const [],
           centerTitle: true,
@@ -185,16 +216,32 @@ class _CarDetailsWidgetState extends State<CarDetailsWidget>
                     alignment: const AlignmentDirectional(0.0, 0.0),
                     child: SingleChildScrollView(
                       child: Column(
-                        mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(8.0),
-                            child: Image.asset(
-                              'assets/images/PHOTO-2024-11-12-11-17-03.jpeg',
+                            child: CachedNetworkImage(
+                              imageUrl: widget.car.picture,
                               width: 390.0,
-                              height: 238.0,
                               fit: BoxFit.cover,
+                              placeholder: (context, url) => Container(
+                                width: 390.0,
+                                color: Colors
+                                    .grey[300], // لون خلفية أثناء تحميل الصورة
+                                child: const Center(
+                                  child:
+                                  CircularProgressIndicator(), // مؤشر تحميل
+                                ),
+                              ),
+                              errorWidget: (context, url, error) => Container(
+                                width: 390.0,
+                                color: Colors.grey[200], // لون خلفية عند الخطأ
+                                child: const Center(
+                                  child: Icon(Icons.broken_image,
+                                      color: Colors.red,
+                                      size: 50), // أيقونة خطأ
+                                ),
+                              ),
                             ),
                           ),
                           Padding(
@@ -213,24 +260,26 @@ class _CarDetailsWidgetState extends State<CarDetailsWidget>
                                   ),
                                 ),
                                 Align(
-                                  alignment: const AlignmentDirectional(-1.0, 1.0),
+                                  alignment:
+                                  const AlignmentDirectional(-1.0, 1.0),
                                   child: Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding:
+                                    const EdgeInsetsDirectional.fromSTEB(
                                         5.0, 10.0, 0.0, 0.0),
                                     child: SelectionArea(
                                         child: Text(
-                                      'Porsche 911 Turbo S  2024',
-                                      textAlign: TextAlign.start,
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
+                                          '${widget.car.brand} ${widget.car.model} ${widget.car.year}',
+                                          textAlign: TextAlign.start,
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
                                             fontFamily: 'Roboto Condensed',
                                             color: const Color(0xFF143969),
                                             fontSize: 20.0,
                                             letterSpacing: 0.0,
                                             fontWeight: FontWeight.bold,
                                           ),
-                                    )),
+                                        )),
                                   ),
                                 ),
                               ],
@@ -243,7 +292,7 @@ class _CarDetailsWidgetState extends State<CarDetailsWidget>
                                   0.0, 10.0, 0.0, 0.0),
                               child: Container(
                                 width: 354.0,
-                                height: 115.0,
+                                height: 130.0,
                                 decoration: BoxDecoration(
                                   color: FlutterFlowTheme.of(context)
                                       .secondaryBackground,
@@ -263,20 +312,20 @@ class _CarDetailsWidgetState extends State<CarDetailsWidget>
                                   children: [
                                     Align(
                                       alignment:
-                                          const AlignmentDirectional(-1.0, 0.0),
+                                      const AlignmentDirectional(-1.0, 0.0),
                                       child: Padding(
                                         padding: const EdgeInsets.all(10.0),
                                         child: SelectionArea(
                                             child: Text(
-                                          'The Porsche 911 is an iconic sports car that combines high performance with elegant design. It features a rear-engine layout, offering unique balance and an enjoyable driving experience. Known for its powerful engines and sleek design, it merges luxury with excitement.',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
+                                              widget.car.specification,
+                                              style: FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .override(
                                                 fontFamily: 'Roboto Condensed',
                                                 letterSpacing: 0.0,
                                                 lineHeight: 1.3,
                                               ),
-                                        )),
+                                            )),
                                       ),
                                     ),
                                   ],
@@ -289,28 +338,27 @@ class _CarDetailsWidgetState extends State<CarDetailsWidget>
                                 0.0, 4.0, 0.0, 0.0),
                             child: Container(
                               width: double.infinity,
-                              height: 486.0,
+                              height: 500,
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context)
                                     .primaryBackground,
                               ),
                               child: Column(
-                                mainAxisSize: MainAxisSize.max,
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Column(
-                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Column(
-                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    24.0, 8.0, 24.0, 0.0),
+                                            padding: const EdgeInsetsDirectional
+                                                .fromSTEB(24.0, 8.0, 24.0, 0.0),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               mainAxisAlignment:
-                                                  MainAxisAlignment.end,
+                                              MainAxisAlignment.end,
                                               children: [
                                                 const Icon(
                                                   Icons.star_sharp,
@@ -319,8 +367,8 @@ class _CarDetailsWidgetState extends State<CarDetailsWidget>
                                                 ),
                                                 const Align(
                                                   alignment:
-                                                      AlignmentDirectional(
-                                                          -2.0, 0.0),
+                                                  AlignmentDirectional(
+                                                      -2.0, 0.0),
                                                   child: Icon(
                                                     Icons.star_sharp,
                                                     color: Color(0xFF143969),
@@ -345,60 +393,59 @@ class _CarDetailsWidgetState extends State<CarDetailsWidget>
                                                 Flexible(
                                                   child: Align(
                                                     alignment:
-                                                        const AlignmentDirectional(
-                                                            -1.0, 0.0),
+                                                    const AlignmentDirectional(
+                                                        -1.0, 0.0),
                                                     child: Padding(
                                                       padding:
-                                                          const EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  8.0,
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0),
+                                                      const EdgeInsetsDirectional
+                                                          .fromSTEB(8.0,
+                                                          0.0, 0.0, 0.0),
                                                       child: Text(
                                                         '4.7',
                                                         style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Inter',
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                ),
+                                                        FlutterFlowTheme.of(
+                                                            context)
+                                                            .bodyMedium
+                                                            .override(
+                                                          fontFamily:
+                                                          'Inter',
+                                                          letterSpacing:
+                                                          0.0,
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
                                                 Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding:
+                                                  const EdgeInsetsDirectional
                                                       .fromSTEB(
-                                                          8.0, 0.0, 0.0, 0.0),
+                                                      8.0, 0.0, 0.0, 0.0),
                                                   child: Text(
                                                     '(2.5k reviews)',
                                                     style: FlutterFlowTheme.of(
-                                                            context)
+                                                        context)
                                                         .bodySmall
                                                         .override(
-                                                          fontFamily: 'Inter',
-                                                          letterSpacing: 0.0,
-                                                        ),
+                                                      fontFamily: 'Inter',
+                                                      letterSpacing: 0.0,
+                                                    ),
                                                   ),
                                                 ),
                                                 Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding:
+                                                  const EdgeInsetsDirectional
                                                       .fromSTEB(
-                                                          12.0, 0.0, 0.0, 0.0),
+                                                      12.0, 0.0, 0.0, 0.0),
                                                   child: InkWell(
                                                     splashColor:
-                                                        Colors.transparent,
+                                                    Colors.transparent,
                                                     focusColor:
-                                                        Colors.transparent,
+                                                    Colors.transparent,
                                                     hoverColor:
-                                                        Colors.transparent,
+                                                    Colors.transparent,
                                                     highlightColor:
-                                                        Colors.transparent,
+                                                    Colors.transparent,
                                                     onTap: () async {
                                                       context.pushNamed(
                                                           'CarReview');
@@ -407,368 +454,387 @@ class _CarDetailsWidgetState extends State<CarDetailsWidget>
                                                       Icons
                                                           .keyboard_arrow_right_rounded,
                                                       color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .secondaryText,
+                                                      FlutterFlowTheme.of(
+                                                          context)
+                                                          .secondaryText,
                                                       size: 20.0,
                                                     ),
                                                   ),
                                                 ),
                                               ],
                                             ).animateOnPageLoad(animationsMap[
-                                                'rowOnPageLoadAnimation']!),
+                                            'rowOnPageLoadAnimation']!),
                                           ),
                                           Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    16.0, 24.0, 16.0, 24.0),
+                                            padding: const EdgeInsetsDirectional
+                                                .fromSTEB(5.0, 24.0, 5.0, 24.0),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.max,
                                               mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                              MainAxisAlignment
+                                                  .spaceBetween,
                                               children: [
                                                 SizedBox(
                                                   width: 110.0,
-                                                  height: 120.0,
+                                                  height: 130.0,
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      safeSetState(() {
+                                                        _model.checkboxValue1 =
+                                                        !(_model.checkboxValue1 ??
+                                                            false);
+
+                                                        if (_model
+                                                            .checkboxValue1!) {
+                                                          _model.checkboxValue2 =
+                                                          false;
+                                                          _model.checkboxValue3 =
+                                                          false;
+                                                        }
+                                                      });
+                                                    },
+                                                    child: Stack(
+                                                      children: [
+                                                        Align(
+                                                          alignment:
+                                                          const AlignmentDirectional(
+                                                              0.0, 0.0),
+                                                          child: Container(
+                                                            width: 110.0,
+                                                            height: 130.0,
+                                                            decoration:
+                                                            BoxDecoration(
+                                                              color: FlutterFlowTheme
+                                                                  .of(context)
+                                                                  .secondaryBackground,
+                                                              borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                  12.0),
+                                                              border:
+                                                              Border.all(
+                                                                color: FlutterFlowTheme.of(
+                                                                    context)
+                                                                    .alternate,
+                                                                width: 2.0,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Align(
+                                                          alignment:
+                                                          const AlignmentDirectional(
+                                                              0.04, -0.79),
+                                                          child: Theme(
+                                                            data: ThemeData(
+                                                              checkboxTheme:
+                                                              const CheckboxThemeData(
+                                                                shape:
+                                                                CircleBorder(),
+                                                              ),
+                                                              unselectedWidgetColor:
+                                                              const Color(
+                                                                  0xFF143969),
+                                                            ),
+                                                            child: Checkbox(
+                                                              value: _model
+                                                                  .checkboxValue1 ??=
+                                                              true,
+                                                              onChanged:
+                                                                  (newValue) async {
+                                                                // safeSetState(() =>
+                                                                //     _model.checkboxValue1 =
+                                                                //         newValue!);
+
+                                                                safeSetState(
+                                                                        () {
+                                                                      _model.checkboxValue1 =
+                                                                      newValue!;
+
+                                                                      if (_model
+                                                                          .checkboxValue1!) {
+                                                                        _model.checkboxValue2 =
+                                                                        false;
+                                                                        _model.checkboxValue3 =
+                                                                        false;
+                                                                      }
+                                                                    });
+                                                              },
+                                                              side:
+                                                              const BorderSide(
+                                                                width: 2,
+                                                                color: Color(
+                                                                    0xFF143969),
+                                                              ),
+                                                              activeColor:
+                                                              const Color(
+                                                                  0xFF143969),
+                                                              checkColor:
+                                                              const Color(
+                                                                  0xFF143969),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Align(
+                                                          alignment:
+                                                          const AlignmentDirectional(
+                                                              0.0, 0.45),
+                                                          child: Text(
+                                                            '\$${widget.car.price['standard']}',
+                                                            style: FlutterFlowTheme
+                                                                .of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                              fontFamily:
+                                                              'Inter',
+                                                              letterSpacing:
+                                                              0.0,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Align(
+                                                          alignment:
+                                                          const AlignmentDirectional(
+                                                              0.0, 0.0),
+                                                          child: Text(
+                                                            'Standard',
+                                                            style: FlutterFlowTheme
+                                                                .of(context)
+                                                                .labelMedium
+                                                                .override(
+                                                              fontFamily:
+                                                              'Inter',
+                                                              letterSpacing:
+                                                              0.0,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ).animateOnPageLoad(animationsMap[
+                                                'stackOnPageLoadAnimation1']!),
+                                                SizedBox(
+                                                  width: 110.0,
+                                                  height: 130.0,
+                                                  child: InkWell(
+                                                    onTap: () {
+                                                      safeSetState(() {
+                                                        _model.checkboxValue2 =
+                                                        !(_model.checkboxValue2 ??
+                                                            false);
+
+                                                        if (_model
+                                                            .checkboxValue2!) {
+                                                          _model.checkboxValue1 =
+                                                          false;
+                                                          _model.checkboxValue3 =
+                                                          false;
+                                                        }
+                                                      });
+                                                    },
+                                                    child: Stack(
+                                                      children: [
+                                                        Align(
+                                                          alignment:
+                                                          const AlignmentDirectional(
+                                                              0.0, 0.0),
+                                                          child: Container(
+                                                            width: 110.0,
+                                                            height: 130.0,
+                                                            decoration:
+                                                            BoxDecoration(
+                                                              color: FlutterFlowTheme
+                                                                  .of(context)
+                                                                  .secondaryBackground,
+                                                              borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                  12.0),
+                                                              border:
+                                                              Border.all(
+                                                                color: FlutterFlowTheme.of(
+                                                                    context)
+                                                                    .alternate,
+                                                                width: 2.0,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Align(
+                                                          alignment:
+                                                          const AlignmentDirectional(
+                                                              0.04, -0.79),
+                                                          child: Theme(
+                                                            data: ThemeData(
+                                                              checkboxTheme:
+                                                              const CheckboxThemeData(
+                                                                shape:
+                                                                CircleBorder(),
+                                                              ),
+                                                              unselectedWidgetColor:
+                                                              const Color(
+                                                                  0xFF143969),
+                                                            ),
+                                                            child: Checkbox(
+                                                              value: _model
+                                                                  .checkboxValue2 ??=
+                                                              false,
+                                                              onChanged:
+                                                                  (newValue) async {
+                                                                safeSetState(
+                                                                        () {
+                                                                      _model.checkboxValue2 =
+                                                                      newValue!;
+
+                                                                      if (_model
+                                                                          .checkboxValue2!) {
+                                                                        _model.checkboxValue1 =
+                                                                        false;
+                                                                        _model.checkboxValue3 =
+                                                                        false;
+                                                                      }
+                                                                    });
+                                                              },
+                                                              side:
+                                                              const BorderSide(
+                                                                width: 1,
+                                                                color: Color(
+                                                                    0xFF143969),
+                                                              ),
+                                                              activeColor:
+                                                              const Color(
+                                                                  0xFF143969),
+                                                              checkColor:
+                                                              const Color(
+                                                                  0xFF143969),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Align(
+                                                          alignment:
+                                                          const AlignmentDirectional(
+                                                              0.0, 0.45),
+                                                          child: Text(
+                                                            '\$${widget.car.price['half_full']}',
+                                                            style: FlutterFlowTheme
+                                                                .of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                              fontFamily:
+                                                              'Inter',
+                                                              letterSpacing:
+                                                              0.0,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Align(
+                                                          alignment:
+                                                          const AlignmentDirectional(
+                                                              0.0, 0.0),
+                                                          child: Text(
+                                                            'Half Full ',
+                                                            style: FlutterFlowTheme
+                                                                .of(context)
+                                                                .labelMedium
+                                                                .override(
+                                                              fontFamily:
+                                                              'Inter',
+                                                              letterSpacing:
+                                                              0.0,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ).animateOnPageLoad(animationsMap[
+                                                'stackOnPageLoadAnimation2']!),
+                                                SizedBox(
+                                                  width: 110.0,
+                                                  height: 130.0,
                                                   child: Stack(
                                                     children: [
                                                       Align(
                                                         alignment:
-                                                            const AlignmentDirectional(
-                                                                0.0, 0.0),
+                                                        const AlignmentDirectional(
+                                                            0.0, 0.0),
                                                         child: Container(
                                                           width: 110.0,
                                                           height: 130.0,
                                                           decoration:
-                                                              BoxDecoration(
+                                                          BoxDecoration(
                                                             color: FlutterFlowTheme
-                                                                    .of(context)
+                                                                .of(context)
                                                                 .secondaryBackground,
                                                             borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        12.0),
+                                                            BorderRadius
+                                                                .circular(
+                                                                12.0),
                                                             border: Border.all(
                                                               color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .alternate,
+                                                                  .of(context)
+                                                                  .primary,
                                                               width: 2.0,
                                                             ),
                                                           ),
                                                         ),
                                                       ),
-                                                      Align(
-                                                        alignment:
-                                                            const AlignmentDirectional(
-                                                                0.04, -0.79),
-                                                        child: Theme(
-                                                          data: ThemeData(
-                                                            checkboxTheme:
-                                                                const CheckboxThemeData(
-                                                              shape:
-                                                                  CircleBorder(),
-                                                            ),
-                                                            unselectedWidgetColor:
-                                                                const Color(
-                                                                    0xFF143969),
-                                                          ),
-                                                          child: Checkbox(
-                                                            value: _model
-                                                                    .checkboxValue1 ??=
-                                                                true,
-                                                            onChanged:
-                                                                (newValue) async {
-                                                              safeSetState(() =>
+                                                      if (_model
+                                                          .checkboxValue3 ==
+                                                          false)
+                                                        Align(
+                                                          alignment:
+                                                          const AlignmentDirectional(
+                                                              0.0, 0.0),
+                                                          child: InkWell(
+                                                            splashColor: Colors
+                                                                .transparent,
+                                                            focusColor: Colors
+                                                                .transparent,
+                                                            hoverColor: Colors
+                                                                .transparent,
+                                                            highlightColor:
+                                                            Colors
+                                                                .transparent,
+                                                            onTap: () async {
+                                                              // context.pushNamed(
+                                                              //     'carDetailsF');
+                                                              safeSetState(() {
+                                                                _model.checkboxValue3 =
+                                                                !(_model.checkboxValue3 ??
+                                                                    false);
+
+                                                                if (_model
+                                                                    .checkboxValue3!) {
                                                                   _model.checkboxValue1 =
-                                                                      newValue!);
-                                                            },
-                                                            side: const BorderSide(
-                                                              width: 2,
-                                                              color: Color(
-                                                                  0xFF143969),
-                                                            ),
-                                                            activeColor: const Color(
-                                                                0xFF143969),
-                                                            checkColor: const Color(
-                                                                0xFF143969),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Align(
-                                                        alignment:
-                                                            const AlignmentDirectional(
-                                                                0.0, 0.45),
-                                                        child: Text(
-                                                          '\$129.99',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyLarge
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                letterSpacing:
-                                                                    0.0,
-                                                              ),
-                                                        ),
-                                                      ),
-                                                      Align(
-                                                        alignment:
-                                                            const AlignmentDirectional(
-                                                                0.0, 0.0),
-                                                        child: Text(
-                                                          'Standard',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .labelMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                letterSpacing:
-                                                                    0.0,
-                                                              ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ).animateOnPageLoad(animationsMap[
-                                                    'stackOnPageLoadAnimation1']!),
-                                                SizedBox(
-                                                  width: 110.0,
-                                                  height: 120.0,
-                                                  child: Stack(
-                                                    children: [
-                                                      Align(
-                                                        alignment:
-                                                            const AlignmentDirectional(
-                                                                0.0, 0.0),
-                                                        child: Container(
-                                                          width: 110.0,
-                                                          height: 110.0,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .secondaryBackground,
-                                                            shape:
-                                                                BoxShape.circle,
-                                                            border: Border.all(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .primary,
-                                                              width: 2.0,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      if (_model
-                                                              .checkboxValue2 ==
-                                                          false)
-                                                        Align(
-                                                          alignment:
-                                                              const AlignmentDirectional(
-                                                                  0.0, 0.0),
-                                                          child: InkWell(
-                                                            splashColor: Colors
-                                                                .transparent,
-                                                            focusColor: Colors
-                                                                .transparent,
-                                                            hoverColor: Colors
-                                                                .transparent,
-                                                            highlightColor:
-                                                                Colors
-                                                                    .transparent,
-                                                            onTap: () async {
-                                                              context.pushNamed(
-                                                                  'carDetailsHF');
+                                                                  false;
+                                                                  _model.checkboxValue2 =
+                                                                  false;
+                                                                }
+                                                              });
                                                             },
                                                             child: Container(
                                                               width: 110.0,
                                                               height: 130.0,
                                                               decoration:
-                                                                  BoxDecoration(
-                                                                color: _model
-                                                                            .checkboxValue1 ==
-                                                                        true
-                                                                    ? FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .accent1
-                                                                    : FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .secondaryBackground,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            12.0),
-                                                                shape: BoxShape
-                                                                    .rectangle,
-                                                                border:
-                                                                    Border.all(
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .alternate,
-                                                                  width: 2.0,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      Align(
-                                                        alignment:
-                                                            const AlignmentDirectional(
-                                                                0.04, -0.79),
-                                                        child: Theme(
-                                                          data: ThemeData(
-                                                            checkboxTheme:
-                                                                const CheckboxThemeData(
-                                                              shape:
-                                                                  CircleBorder(),
-                                                            ),
-                                                            unselectedWidgetColor:
-                                                                const Color(
-                                                                    0xFF143969),
-                                                          ),
-                                                          child: Checkbox(
-                                                            value: _model
-                                                                    .checkboxValue2 ??=
-                                                                false,
-                                                            onChanged:
-                                                                (newValue) async {
-                                                              safeSetState(() =>
-                                                                  _model.checkboxValue2 =
-                                                                      newValue!);
-                                                              if (newValue!) {
-                                                                if (Navigator.of(
-                                                                        context)
-                                                                    .canPop()) {
-                                                                  context.pop();
-                                                                }
-                                                                context.pushNamed(
-                                                                    'carDetailsHF');
-                                                              }
-                                                            },
-                                                            side: const BorderSide(
-                                                              width: 2,
-                                                              color: Color(
-                                                                  0xFF143969),
-                                                            ),
-                                                            activeColor: const Color(
-                                                                0xFF143969),
-                                                            checkColor: const Color(
-                                                                0xFF143969),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Align(
-                                                        alignment:
-                                                            const AlignmentDirectional(
-                                                                0.0, 0.45),
-                                                        child: Text(
-                                                          '\$129.99',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyLarge
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                letterSpacing:
-                                                                    0.0,
-                                                              ),
-                                                        ),
-                                                      ),
-                                                      Align(
-                                                        alignment:
-                                                            const AlignmentDirectional(
-                                                                0.0, 0.0),
-                                                        child: Text(
-                                                          'Half Full ',
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .labelMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                letterSpacing:
-                                                                    0.0,
-                                                              ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ).animateOnPageLoad(animationsMap[
-                                                    'stackOnPageLoadAnimation2']!),
-                                                SizedBox(
-                                                  width: 110.0,
-                                                  height: 120.0,
-                                                  child: Stack(
-                                                    children: [
-                                                      Align(
-                                                        alignment:
-                                                            const AlignmentDirectional(
-                                                                0.0, 0.0),
-                                                        child: Container(
-                                                          width: 110.0,
-                                                          height: 130.0,
-                                                          decoration:
                                                               BoxDecoration(
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .secondaryBackground,
-                                                            borderRadius:
+                                                                color: _model
+                                                                    .checkboxValue3!
+                                                                    ? FlutterFlowTheme.of(
+                                                                    context)
+                                                                    .accent1
+                                                                    : FlutterFlowTheme.of(
+                                                                    context)
+                                                                    .secondaryBackground,
+                                                                borderRadius:
                                                                 BorderRadius
                                                                     .circular(
-                                                                        12.0),
-                                                            border: Border.all(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .primary,
-                                                              width: 2.0,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      if (_model
-                                                              .checkboxValue3 ==
-                                                          false)
-                                                        Align(
-                                                          alignment:
-                                                              const AlignmentDirectional(
-                                                                  0.0, 0.0),
-                                                          child: InkWell(
-                                                            splashColor: Colors
-                                                                .transparent,
-                                                            focusColor: Colors
-                                                                .transparent,
-                                                            hoverColor: Colors
-                                                                .transparent,
-                                                            highlightColor:
-                                                                Colors
-                                                                    .transparent,
-                                                            onTap: () async {
-                                                              context.pushNamed(
-                                                                  'carDetailsF');
-                                                            },
-                                                            child: Container(
-                                                              width: 110.0,
-                                                              height: 130.0,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: _model
-                                                                        .checkboxValue3!
-                                                                    ? FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .accent1
-                                                                    : FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .secondaryBackground,
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            12.0),
+                                                                    12.0),
                                                                 border:
-                                                                    Border.all(
+                                                                Border.all(
                                                                   color: FlutterFlowTheme.of(
-                                                                          context)
+                                                                      context)
                                                                       .alternate,
                                                                   width: 2.0,
                                                                 ),
@@ -778,83 +844,98 @@ class _CarDetailsWidgetState extends State<CarDetailsWidget>
                                                         ),
                                                       Align(
                                                         alignment:
-                                                            const AlignmentDirectional(
-                                                                0.04, -0.79),
+                                                        const AlignmentDirectional(
+                                                            0.04, -0.79),
                                                         child: Theme(
                                                           data: ThemeData(
                                                             checkboxTheme:
-                                                                const CheckboxThemeData(
+                                                            const CheckboxThemeData(
                                                               shape:
-                                                                  CircleBorder(),
+                                                              CircleBorder(),
                                                             ),
                                                             unselectedWidgetColor:
-                                                                const Color(
-                                                                    0xFF143969),
+                                                            const Color(
+                                                                0xFF143969),
                                                           ),
                                                           child: Checkbox(
                                                             value: _model
-                                                                    .checkboxValue3 ??=
-                                                                false,
+                                                                .checkboxValue3 ??=
+                                                            false,
                                                             onChanged:
                                                                 (newValue) async {
-                                                              safeSetState(() =>
-                                                                  _model.checkboxValue3 =
-                                                                      newValue!);
-                                                              if (newValue!) {
-                                                                context.pushNamed(
-                                                                    'carDetailsF');
-                                                              }
+                                                              safeSetState(() {
+                                                                _model.checkboxValue3 =
+                                                                newValue!;
+
+                                                                if (_model
+                                                                    .checkboxValue3!) {
+                                                                  _model.checkboxValue1 =
+                                                                  false;
+                                                                  _model.checkboxValue2 =
+                                                                  false;
+                                                                }
+                                                              });
+                                                              // safeSetState(() =>
+                                                              //     _model.checkboxValue3 =
+                                                              //         newValue!);
+                                                              // if (newValue!) {
+                                                              //   context.pushNamed(
+                                                              //       'carDetailsF');
+                                                              // }
                                                             },
-                                                            side: const BorderSide(
+                                                            side:
+                                                            const BorderSide(
                                                               width: 2,
                                                               color: Color(
                                                                   0xFF143969),
                                                             ),
-                                                            activeColor: const Color(
+                                                            activeColor:
+                                                            const Color(
                                                                 0xFF143969),
-                                                            checkColor: const Color(
+                                                            checkColor:
+                                                            const Color(
                                                                 0xFF143969),
                                                           ),
                                                         ),
                                                       ),
                                                       Align(
                                                         alignment:
-                                                            const AlignmentDirectional(
-                                                                0.0, 0.45),
+                                                        const AlignmentDirectional(
+                                                            0.0, 0.45),
                                                         child: Text(
-                                                          '\$149.99',
+                                                          '\$${widget.car.price['full']}',
                                                           style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyLarge
+                                                              .of(context)
+                                                              .bodyMedium
                                                               .override(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                letterSpacing:
-                                                                    0.0,
-                                                              ),
+                                                            fontFamily:
+                                                            'Inter',
+                                                            letterSpacing:
+                                                            0.0,
+                                                          ),
                                                         ),
                                                       ),
                                                       Align(
                                                         alignment:
-                                                            const AlignmentDirectional(
-                                                                0.0, 0.0),
+                                                        const AlignmentDirectional(
+                                                            0.0, 0.0),
                                                         child: Text(
                                                           'Full',
                                                           style: FlutterFlowTheme
-                                                                  .of(context)
+                                                              .of(context)
                                                               .labelMedium
                                                               .override(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                letterSpacing:
-                                                                    0.0,
-                                                              ),
+                                                            fontFamily:
+                                                            'Inter',
+                                                            letterSpacing:
+                                                            0.0,
+                                                          ),
                                                         ),
                                                       ),
                                                     ],
                                                   ),
                                                 ).animateOnPageLoad(animationsMap[
-                                                    'stackOnPageLoadAnimation3']!),
+                                                'stackOnPageLoadAnimation3']!),
                                               ],
                                             ),
                                           ),
@@ -863,13 +944,14 @@ class _CarDetailsWidgetState extends State<CarDetailsWidget>
                                             height: 180.0,
                                             decoration: BoxDecoration(
                                               color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondaryBackground,
-                                              borderRadius: const BorderRadius.only(
+                                              FlutterFlowTheme.of(context)
+                                                  .secondaryBackground,
+                                              borderRadius:
+                                              const BorderRadius.only(
                                                 bottomLeft:
-                                                    Radius.circular(5.0),
+                                                Radius.circular(5.0),
                                                 bottomRight:
-                                                    Radius.circular(5.0),
+                                                Radius.circular(5.0),
                                                 topLeft: Radius.circular(5.0),
                                                 topRight: Radius.circular(5.0),
                                               ),
@@ -879,54 +961,77 @@ class _CarDetailsWidgetState extends State<CarDetailsWidget>
                                               ),
                                             ),
                                             child: Column(
-                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisSize: MainAxisSize.min,
+                                              mainAxisAlignment: MainAxisAlignment.start,
                                               children: [
                                                 Align(
                                                   alignment:
-                                                      const AlignmentDirectional(
-                                                          -1.0, 1.0),
+                                                  const AlignmentDirectional(
+                                                      -1.0, 1.0),
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(5.0, 10.0,
-                                                                0.0, 0.0),
+                                                    const EdgeInsetsDirectional
+                                                        .fromSTEB(5.0, 10.0,
+                                                        0.0, 0.0),
                                                     child: SelectionArea(
-                                                        child: Text(
-                                                      'Standard Configuration:',
-                                                      textAlign:
-                                                          TextAlign.start,
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Roboto Condensed',
-                                                            fontSize: 16.0,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                          ),
-                                                    )),
+                                                      child: Text(
+                                                        getConfigTitle(),
+                                                        textAlign:
+                                                        TextAlign.start,
+                                                        style: FlutterFlowTheme
+                                                            .of(context)
+                                                            .bodyMedium
+                                                            .override(
+                                                          fontFamily:
+                                                          'Roboto Condensed',
+                                                          fontSize: 16.0,
+                                                          letterSpacing:
+                                                          0.0,
+                                                          fontWeight:
+                                                          FontWeight
+                                                              .bold,
+                                                        ),
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
                                                 Align(
                                                   alignment:
-                                                      const AlignmentDirectional(
-                                                          -1.0, 0.0),
+                                                  const AlignmentDirectional(
+                                                      -1.0, 0.0),
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsets.all(10.0),
+                                                    const EdgeInsets.all(
+                                                        10.0),
                                                     child: Text(
-                                                      '- 3.8L twin-turbo flat-six engine, 640 HP, 0-100 km/h in 2.7 seconds.\n- Porsche Ceramic Composite Brakes (PCCB).\n- LED Matrix headlights with PDLS+.\n- 10.9-inch touchscreen, wireless Apple CarPlay.\n- Dual-zone climate control for hot weather.\n- Arabic-supported navigation optimized for local maps.',
+                                                      getSelectedIndex() !=
+                                                          -1 &&
+                                                          widget
+                                                              .car
+                                                              .configuration
+                                                              .isNotEmpty &&
+                                                          widget
+                                                              .car
+                                                              .configuration
+                                                              .length >
+                                                              getSelectedIndex()
+                                                          ? widget
+                                                          .car
+                                                          .configuration[
+                                                      getSelectedIndex()]
+                                                          .values
+                                                          .first
+                                                          : 'No configuration selected',
                                                       style: FlutterFlowTheme
-                                                              .of(context)
+                                                          .of(context)
                                                           .bodyMedium
                                                           .override(
-                                                            fontFamily:
-                                                                'Roboto Condensed',
-                                                            letterSpacing: 0.0,
-                                                            lineHeight: 1.3,
-                                                          ),
+                                                        fontFamily:
+                                                        'Roboto Condensed',
+                                                        letterSpacing:
+                                                        0.0,
+                                                        lineHeight: 1.3,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -937,13 +1042,6 @@ class _CarDetailsWidgetState extends State<CarDetailsWidget>
                                       ),
                                     ],
                                   ),
-                                  Container(
-                                    width: 360.0,
-                                    height: 121.0,
-                                    decoration: const BoxDecoration(
-                                      color: Color(0x0000E6E6),
-                                    ),
-                                  ),
                                 ],
                               ),
                             ),
@@ -953,6 +1051,27 @@ class _CarDetailsWidgetState extends State<CarDetailsWidget>
                     ),
                   ),
                 ],
+              ),
+              Positioned(
+                bottom: 20, // المسافة من الأسفل
+                left: 20, // المسافة من اليسار
+                right: 20, // المسافة من اليمين
+                child: ElevatedButton(
+                  onPressed: () {
+                    // تنفيذ عملية التعديل هنا
+                  },
+                  child: Text("Edit"),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.all(defaultPadding),
+                    backgroundColor: const Color(0xFF526C70),
+                    foregroundColor: Colors.white,
+                    minimumSize: const Size(double.infinity, 32),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(defaultBorderRadious)),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
